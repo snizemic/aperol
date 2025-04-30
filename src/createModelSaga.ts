@@ -104,6 +104,14 @@ function startGarbageCollector(subscriptions: Subscription[]) {
 	const intervalHandler = setInterval(
 		() => {
 			for (let index in subscriptions) {
+				const subscription = subscriptions[index];
+
+				if (!subscription) {
+					console.warn(`Found undefined subscription at index ${index}, removing it`);
+					subscriptions.splice(parseInt(index), 1);
+					continue;
+				}
+
 				if (subscriptions[index].closed) {
 					subscriptions.splice(parseInt(index), 1);
 				}
